@@ -1,0 +1,169 @@
+{
+	"pages": [
+		{
+			"path": "pages/main/main",
+			"style": {
+				"navigationBarBackgroundColor": "#CD0011",
+				"app-plus": {
+					"bounce": "none",
+                    "titleNView": {
+                        "searchInput":{
+                                "align": "left",
+                                "placeholder": "基因检测",
+                                "borderRadius":"50upx",
+                                "backgroundColor": "#fff"
+                            }
+                    }
+				}
+			}
+		}, {
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		}, {
+			"path": "pages/reg/phone",
+			"style": {
+				"navigationBarTitleText": "手机验证"
+			}
+		}, {
+			"path": "pages/pwd/pwd",
+			"style": {
+				"navigationBarTitleText": "找回密码"
+			}
+		}, {
+			"path": "pages/user/user",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},{
+			"path": "pages/user/allMoney",
+			"style": {
+				"navigationBarTitleText": "消费明细"
+			}
+		},{
+			"path": "pages/user/pick",
+			"style": {
+				"navigationBarTitleText": "消费明细"
+			}
+		},{
+			"path": "pages/user/brokerage",
+			"style": {
+				"navigationBarTitleText": "消费明细"
+			}
+		},{
+			"path": "pages/user/order",
+			"style": {
+				"navigationBarTitleText": "提货订单"
+			}
+		},{
+			"path": "pages/user/orderDetail",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},{
+			"path": "pages/reg/reg",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		},{
+			"path": "pages/user/wallet",
+			"style": {
+				"navigationBarTitleText": "钱包"
+			}
+		},{
+			"path": "pages/user/customs",
+			"style": {
+				"navigationBarTitleText": "转为报单币"
+			}
+		},{
+			"path": "pages/user/withdraw",
+			"style": {
+				"navigationBarTitleText": "佣金提现"
+			}
+		},{
+			"path": "pages/user/type",
+			"style": {
+				"navigationBarTitleText": "添加提现方式"
+			}
+		},{
+			"path": "pages/user/recharge/dredge",
+			"style": {
+				"navigationBarTitleText": "开通会员",
+				"navigationBarTextStyle": "#EBB46C",
+		        "navigationBarBackgroundColor": "#2A2525"
+			}
+		},{
+			"path": "pages/user/recharge/upgrade",
+			"style": {
+				"navigationBarTitleText": "会员升级"
+			}
+		},{
+			"path": "pages/user/personal",
+			"style": {
+				"navigationBarTitleText": "个人信息"
+			}
+		},{
+			"path": "pages/user/updatePerson",
+			"style": {
+				"navigationBarTitleText": "个人信息"
+			}
+		},{
+			"path": "pages/team/team",
+			"style": {
+				"navigationBarTitleText": "团队"
+			}
+		},{
+			"path": "pages/team/report",
+			"style": {
+				"navigationBarTitleText": "报单"
+			}
+		},{
+			"path": "pages/team/share",
+			"style": {
+				"navigationBarTitleText": "分享"
+			}
+		},{
+			"path": "pages/main/detail",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},{
+			"path": "pages/main/cart",
+			"style": {
+				"navigationBarTitleText": "购物车"
+			}
+		},{
+			"path": "pages/user/torecommender",
+			"style": {
+				"navigationBarTitleText": "转给推荐人"
+			}
+		}
+	],
+	"tabBar": {
+		"color": "#7a7e83",
+		"selectedColor": "#0faeff",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/main/main",
+			"text": "首页",
+			"iconPath": "static/img/home.png",
+			"selectedIconPath": "static/img/homeHL.png"
+		},{
+			"pagePath": "pages/team/team",
+			"text": "团队",
+			"iconPath": "static/img/tuandui.png",
+			"selectedIconPath": "static/img/tuandui.png"
+		} ,{
+			"pagePath": "pages/user/user",
+			"text": "我的",
+			"iconPath": "static/img/user.png",
+			"selectedIconPath": "static/img/userHL.png"
+		}]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarBackgroundColor": "white",
+		"backgroundColor": "#fbf9fe"
+	}
+}
