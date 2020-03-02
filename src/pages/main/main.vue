@@ -48,7 +48,7 @@
       ></uni-segmented-control>
       <view style="height:100%;background:white;padding-left:24px">
         <view v-show="current === 0">
-          <view class="product" @click="inother">
+          <view class="product" @click="inother" v-for="(item,index) in dataList" :key="index">
             <view style="display:flex;align-items: center">
               <image
                 src="../../static/img/avtar.png"

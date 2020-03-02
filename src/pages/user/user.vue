@@ -3,7 +3,7 @@
     <view v-if="hasLogin">
     <view class="head">
       <view class="user">
-        <image style="width:65px;height:65px;border-radius:50%;" :src= " this.userInfo.thumb ? this.userInfo.thumb : '../../static/img/avtar.png'"></image>
+        <image style="width:65px;height:65px;border-radius:50%;" :src= " this.userInfo.thumb ? this.userInfo.thumb : '../../static/img/timg.jpg'"></image>
         <view class="message">
           <text style="font-size:16px">{{userInfo.nickname}}</text>
           <text style="font-size:13px;margin-top:9px">{{userInfo.gradename}} {{userInfo.phone}}</text>

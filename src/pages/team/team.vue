@@ -59,6 +59,7 @@
       </view>
       <view v-show="current === 1" class="content">
         <view class="detail" v-for="(item, index) in list" :key="index">
+          <text>{{item.tier}}</text>
           <image
             :src="
               item.children.thumb
@@ -75,9 +76,9 @@
               }}</text>
             </view>
             <view
-              style="display:flex;justify-content: space-between;margin-top:12px"
+              style="margin-top:12px"
             >
-              <text>{{ item.grade.name }}</text>
+              <view>{{ item.grade.name }}</view>
               <text style="color:rgba(128,128,128,1);"
                 >注册时间：{{ item.children.create_time }}</text
               >
