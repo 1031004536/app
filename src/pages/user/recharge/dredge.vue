@@ -95,7 +95,7 @@
 <script>
 import http from "../../../common/request.js";
 import uniSegmentedControl from "../../../components/uni-segmented-control/uni-segmented-control.vue";
-import sunuiUpimg from "../../../components/sunui-upimg/sunui-upimg.vue";
+import sunuiUpimg from "../../../components/sunui-upimg/upimg.vue";
 export default {
   components: { uniSegmentedControl, sunuiUpimg },
   data() {

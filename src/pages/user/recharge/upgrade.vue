@@ -9,6 +9,8 @@
             :autoplay="autoplay"
             :interval="interval"
             :duration="duration"
+            :current= index
+            @change='change'
           >
             <swiper-item style="display: flex;flex-direction: column;align-items: center; box-sizing: border-box" v-for="(item,index) in list" :key="index">
               <view class="head">
@@ -18,7 +20,7 @@
                 >
                 <text
                   style="font-size:12px;color:rgba(255,255,255,1);margin-top:16px;"
-                  >条件：{{item.condition}}</text
+                  >{{item.condition}}</text
                 >
               </view>
               <view style="color:#EBB46C;font-size:15px;width:202px;margin-bottom:38px"
@@ -45,13 +47,21 @@ export default {
       autoplay: false,
       interval: 2000,
       duration: 500,
-      list:''
+      list:'',
+      index:''
     };
+  },
+  onLoad(index){
+    console.log(index.index)
+    this.index = index.index
   },
   onShow(){
       this.getData()
   },
   methods: {
+     change(e){
+       console.log(e)
+     },
     changeIndicatorDots(e) {
       this.indicatorDots = !this.indicatorDots;
     },

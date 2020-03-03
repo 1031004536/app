@@ -1,6 +1,6 @@
 <template>
   <view class="content">
-    <view v-if="hasLogin" class="hello">
+    <view  class="hello">
       <view class="uni-padding-wrap" style="height:165px;border-radius:7px;">
         <view
           class="page-section swiper"
@@ -18,21 +18,13 @@
               :duration="duration"
               style="height:165px;border-radius:7px;"
             >
-              <swiper-item style="height:165px;border-radius:7px;">
+              <swiper-item
+                style="height:165px;border-radius:7px;"
+                v-for="(item, index) in bannerList"
+                :key="index"
+              >
                 <image
-                  src="../../static/img/avtar.png"
-                  style="width:100%;height:100%;border-radius:7px;"
-                ></image>
-              </swiper-item>
-              <swiper-item>
-                <image
-                  src="../../static/img/avtar.png"
-                  style="width:100%;height:100%;border-radius:7px;"
-                ></image>
-              </swiper-item>
-              <swiper-item>
-                <image
-                  src="../../static/img/avtar.png"
+                  :src="item.pic"
                   style="width:100%;height:100%;border-radius:7px;"
                 ></image>
               </swiper-item>
@@ -48,15 +40,24 @@
       ></uni-segmented-control>
       <view style="height:100%;background:white;padding-left:24px">
         <view v-show="current === 0">
-          <view class="product" @click="inother" v-for="(item,index) in dataList" :key="index">
-            <view style="display:flex;align-items: center">
+          <view
+            class="product"
+            v-for="(item, index) in dataList[0].goods"
+            :key="index"
+          >
+            <view
+              style="display:flex;align-items: center"
+              @click="inother(item.id)"
+            >
               <image
-                src="../../static/img/avtar.png"
+                :src="item.thumb"
                 style="width:60px;height:60px;border-radius:4px;"
               ></image>
               <view class="name">
-                <text>华为畅享10s</text>
-                <text style="color:#CD0011;margin-top:16px">￥1499.00</text>
+                <text>{{ item.title }}</text>
+                <text style="color:#CD0011;margin-top:16px"
+                  >￥{{ item.price }}</text
+                >
               </view>
             </view>
             <image
@@ -66,15 +67,24 @@
           </view>
         </view>
         <view v-show="current === 1">
-          <view class="product">
-            <view style="display:flex;align-items: center">
+          <view
+            class="product"
+            v-for="(item, index) in dataList[1].goods"
+            :key="index"
+          >
+            <view
+              style="display:flex;align-items: center"
+              @click="inother(item.id)"
+            >
               <image
-                src="../../static/img/avtar.png"
+                :src="item.thumb"
                 style="width:60px;height:60px;border-radius:4px;"
               ></image>
               <view class="name">
-                <text>华为畅享10s</text>
-                <text style="color:#CD0011;margin-top:16px">￥1499.00</text>
+                <text>{{ item.title }}</text>
+                <text style="color:#CD0011;margin-top:16px"
+                  >￥{{ item.price }}</text
+                >
               </view>
             </view>
             <image
@@ -84,15 +94,24 @@
           </view>
         </view>
         <view v-show="current === 2">
-          <view class="product">
-            <view style="display:flex;align-items: center">
+          <view
+            class="product"
+            v-for="(item, index) in dataList[2].goods"
+            :key="index"
+          >
+            <view
+              style="display:flex;align-items: center"
+              @click="inother(item.id)"
+            >
               <image
-                src="../../static/img/avtar.png"
+                :src="item.thumb"
                 style="width:60px;height:60px;border-radius:4px;"
               ></image>
               <view class="name">
-                <text>华为畅享10s</text>
-                <text style="color:#CD0011;margin-top:16px">￥1499.00</text>
+                <text>{{ item.title }}</text>
+                <text style="color:#CD0011;margin-top:16px"
+                  >￥{{ item.price }}</text
+                >
               </view>
             </view>
             <image
@@ -103,14 +122,14 @@
         </view>
       </view>
     </view>
-    <view v-if="!hasLogin" class="hello">
+    <!-- <view v-if="!hasLogin" class="hello">
       <view class="title">
         您好 游客。
       </view>
       <view class="ul">
         <view>在 “我的” 中点击 “登录” 可以 “登录您的账户”</view>
       </view>
-    </view>
+    </view> -->
   </view>
 </template>
 
@@ -128,14 +147,19 @@ export default {
       interval: 2000,
       duration: 500,
       current: 0,
-      items: ["分类一", "分类二", "分类三"],
-      dataList:''
+      items: [],
+      dataList: "",
+      hasLogin: true,
+      dataList: "",
+      bannerList: ""
     };
   },
   components: { uniSegmentedControl },
-  computed: mapState(["forcedLogin", "hasLogin", "userName"]),
+  computed: mapState(["forcedLogin", "userName"]),
   onShow() {
-    this.getData()
+    this.hasLogin = JSON.parse(uni.getStorageSync("hasLogin"));
+    this.items = [];
+    this.getData();
     //   if (!this.hasLogin) {
     //     uni.showModal({
     //       title: "未登录",
@@ -169,23 +193,41 @@ export default {
         this.current = index.currentIndex;
       }
     },
-    inother() {
+    inother(index) {
       uni.navigateTo({
-        url: "./detail"
+        url: "./detail?id=" + index
       });
     },
     getData() {
       let opts = {
-        url:'/v1/index/get_index_goods',
-        method:'get'
-      }
-      let param = {
-
-      }
+        url: "/v1/index/index",
+        method: "get"
+      };
+      let param = {};
       http.httpRequest(opts, param).then(
         res => {
-          console.log(res.data.data)
-          this.dataList = res.data.data
+          console.log(res.data.code);
+          console.log(res);
+          if (res.data.code == 100) {
+            console.log(res.data.data);
+            this.dataList = res.data.data.goodsdata;
+            this.bannerList = res.data.data.banner;
+            this.dataList.forEach(item => {
+              this.items.push(item.name);
+            });
+          } else {
+            uni.setStorageSync("hasLogin", "false");
+            uni.showToast({
+              title: res.data.msg,
+              duration: 2000,
+              icon: "none",
+              success: function() {
+                uni.reLaunch({
+                  url: "../login/login"
+                });
+              }
+            });
+          }
         },
         error => {
           uni.showToast({

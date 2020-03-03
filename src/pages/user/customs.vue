@@ -67,6 +67,11 @@ export default {
             duration: 2000,
             icon: "none"
           });
+          setTimeout(function() {
+              uni.reLaunch({
+                url: "./user"
+              });
+            }, 1000);
         },
         error => {
           uni.showToast({

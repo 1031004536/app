@@ -23,11 +23,11 @@
           <text>佣金</text>
           <text>￥{{userInfo.commission}}</text>
         </view>
-        <view class="money">
+        <view class="money" @tap="inother('allowance')">
           <text>津贴</text>
           <text>￥{{userInfo.allowance}}</text>
         </view>
-        <view class="money">
+        <view class="money" @tap="inother('coin')">
           <text>报单币</text>
           <text>￥{{userInfo.coin}}</text>
         </view>
@@ -57,7 +57,7 @@
       <image style="width:38px;height:38px" src="../../static/img/qianbao-2.png"></image>
       <text style="font-size:15px;color:rgba(34,34,34,1);margin-top:10px">钱包</text>
     </view>
-    	<view class="both" @click="inVip">
+    	<view class="both" @click="inVip(userInfo.grade_id)">
       <image style="width:38px;height:38px" src="../../static/img/huiyuanshengji-2.png"></image>
       <text style="font-size:15px;color:rgba(34,34,34,1);margin-top:10px">会员升级</text>
     </view>
@@ -88,9 +88,10 @@ import { mapState, mapMutations } from "vuex";
 
 export default {
   computed: {
-    ...mapState(["hasLogin", "forcedLogin"])
+    ...mapState(["forcedLogin"])
   },
   onLoad() {
+    this.hasLogin =JSON.parse(uni.getStorageSync('hasLogin')) 
      let opts = {
         url: "/v1/my/index",
         method: "get"
@@ -99,7 +100,7 @@ export default {
       http.httpRequest(opts, param).then(
         res => {
           this.userInfo = res.data.data
-
+           
         },
         error => {
           uni.showToast({
@@ -112,7 +113,8 @@ export default {
   },
   data() {
      return {
-        userInfo:''
+        userInfo:'',
+        hasLogin:'',
      }
   },
   methods: {
@@ -145,9 +147,14 @@ export default {
         });
       }
     },
-    inVip () {
+    inVip (index) {
+      if(index == 5){
+        index = 5
+      }else{
+        index++
+      }
        uni.navigateTo({
-        url: "../user/recharge/upgrade"
+        url: "../user/recharge/upgrade?index=" + index
       });
     }
   }

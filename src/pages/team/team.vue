@@ -14,7 +14,7 @@
             :src="
               item.children.thumb
                 ? 'item.children.thumb'
-                : '../../static/img/avtar.png'
+                : '../../static/img/timg.jpg'
             "
             style="width:44px;height:44px;border-radius:50%;margin-right:6px"
           ></image>
@@ -45,7 +45,7 @@
         <view class="btns">
           <button
             style="width:50%;line-height:40px;"
-            @click="inother('../reg/reg')"
+            @click="inother('reg')"
           >
             代注册
           </button>
@@ -64,7 +64,7 @@
             :src="
               item.children.thumb
                 ? 'item.children.thumb'
-                : '../../static/img/avtar.png'
+                : '../../static/img/timg.jpg'
             "
             style="width:44px;height:44px;border-radius:50%;margin-right:6px"
           ></image>
@@ -95,7 +95,7 @@
         <view class="btns">
           <button
             style="width:50%;line-height:40px;"
-            @click="inother('../reg/reg')"
+            @click="inother('reg')"
           >
             代注册
           </button>
@@ -118,7 +118,7 @@ import uniSegmentedControl from "../../components/uni-segmented-control/uni-segm
 export default {
   components: { uniSegmentedControl },
   computed: {
-    ...mapState(["hasLogin", "forcedLogin"])
+    ...mapState([ "forcedLogin"])
   },
   data() {
     return {
@@ -128,10 +128,12 @@ export default {
       list: "",
       formaltotal: "",
       totalList: "",
+      hasLogin:''
     };
   },
 
   onShow() {
+    this.hasLogin = JSON.parse(uni.getStorageSync('hasLogin'))
     this.getData();
   },
   methods: {

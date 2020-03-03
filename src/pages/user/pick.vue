@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import http from '../../common/request.js'
 export default {
   name: '',
   data() {

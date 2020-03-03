@@ -1,7 +1,7 @@
 <template>
   <view class="content">
     <view class="head">
-      {{data.url}}下载链接
+      {{data.url}}
     </view>
     <image :src="data.qrcode" class="img"></image>
   </view>

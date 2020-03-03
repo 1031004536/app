@@ -16,7 +16,7 @@
                     }
 				}
 			}
-		}, {
+		},{
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "登录"
@@ -44,12 +44,12 @@
 		},{
 			"path": "pages/user/pick",
 			"style": {
-				"navigationBarTitleText": "消费明细"
+				"navigationBarTitleText": "提货卷明细"
 			}
 		},{
 			"path": "pages/user/brokerage",
 			"style": {
-				"navigationBarTitleText": "消费明细"
+				"navigationBarTitleText": "佣金明细"
 			}
 		},{
 			"path": "pages/user/order",
@@ -137,6 +137,21 @@
 			"path": "pages/user/torecommender",
 			"style": {
 				"navigationBarTitleText": "转给推荐人"
+			}
+		},{
+			"path": "pages/user/allowance",
+			"style": {
+				"navigationBarTitleText": "津贴明细"
+			}
+		},{
+			"path": "pages/user/coin",
+			"style": {
+				"navigationBarTitleText": "报单币明细"
+			}
+		},{
+			"path": "pages/team/reg",
+			"style": {
+				"navigationBarTitleText": "代注册"
 			}
 		}
 	],

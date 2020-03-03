@@ -200,7 +200,8 @@
 	}
  
 	.select-box {
-		height: 1024upx;
+		height: 400px;
+		overflow-y: scroll
 	}
  
 	.select-item {

@@ -1,7 +1,7 @@
 <template>
     <view class="content">
         <view class="custom">
-            <text style="color:rgba(34,34,34,1);font-size:14px;margin-top:16px;margin-left:20px">转换金额</text>
+            <text style="color:rgba(34,34,34,1);font-size:14px;margin-top:16px;margin-left:20px">转账金额</text>
             <view class="input-row border">
                 <text>￥</text>
                  <m-input
@@ -15,9 +15,8 @@
                 ></m-input>
             </view>
             <text style="color:rgba(128,128,128,1);font-size:13px;margin-left:50px">{{name}}金额￥{{totalMoney}}，<span @click="allchange" style="color:#1CAFD6">全部转换</span></text>
-            <text style="color:rgba(128,128,128,1);font-size:13px;margin-left:50px">转换后仅用于报单币，不可提现</text>
         </view>
-        <button class='btu' @click="change">立即转换</button>
+        <button class='btu' @click="change">立即转账</button>
     </view>
 </template>
 
@@ -67,6 +66,11 @@ export default {
             duration: 2000,
             icon: "none"
           });
+          setTimeout(function() {
+              uni.reLaunch({
+                url: "./user"
+              });
+            }, 2000);
         },
         error => {
           uni.showToast({

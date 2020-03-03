@@ -9,11 +9,6 @@
             <span style="color:#808080">运费：</span>在线支付免运费
         </view>
         <view class="detail">
-            <view class="header">
-                <text>商品</text>
-                <text>详情</text>
-                <text>推荐</text>
-            </view>
         </view>
         <view class="tuijian">
             <text style="font-size:14px;margin-top:9px;margin-left:6px;">为你推荐</text>
@@ -24,13 +19,13 @@
                     <image src="../../static/img/kefu.png" style="width:20px;height:20px"></image>
                     <text>客服</text>
                 </view>
-                <view class='ico'>
+                <!-- <view class='ico'>
                     <image src="../../static/img/share.png" style="width:20px;height:20px"></image>
                     <text>分享</text>
-                </view>
+                </view> -->
             </view>
             <button class="btu" style="background:rgba(128,128,128,1);">加入购物车</button>
-            <button class="btu" style="background:rgba(205,0,17,1);" @click="open">立即购买</button>
+            <!-- <button class="btu" style="background:rgba(205,0,17,1);" @click="open">立即购买</button> -->
         </view>
         <uni-popup ref="popup" type="bottom">
             <view class="up">
@@ -53,18 +48,49 @@
     </view>
 </template>
 <script>
+import http from '../../common/request.js'
 import uniPopup from "../../components/uni-popup/uni-popup.vue"
 export default {
     components: {uniPopup},
     data() {
         return {
-            num :'1'
+            num :'1',
+            id:'',
+            detail:''
         }
+    },
+    onLoad(opt){
+       this.id = opt.id
+    },
+    onShow(){
+        this.getData()
     },
      methods:{
       open(){
          this.$refs.popup.open()
       },
+      getData() {
+      let opts = {
+              url:'http://111.229.145.178/v1/index/get_goods_detail',
+              method:'get'
+          }
+
+          let param = {
+              id:this.id
+          }
+           http.httpRequest(opts, param).then(
+        res => {
+          console.log(res.data.data)
+        },
+        error => {
+          uni.showToast({
+            title: error.msg,
+            duration: 2000,
+            icon: "none"
+          });
+        }
+      );
+    },
       add() {
           this.num ++
       },
@@ -160,7 +186,7 @@ export default {
     }
 
     .btu {
-        width: 30%;
+        width: 60%;
         height: 50px;
         color:rgba(255,255,255,1);
         font-size: 16px;

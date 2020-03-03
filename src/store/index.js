@@ -21,13 +21,14 @@ const store = new Vuex.Store({
 			let param = {}
 			http.httpRequest(opts, param).then(
 				res => {
-					state.hasLogin = true;
+					 state.hasLogin = true;
+					uni.setStorageSync('hasLogin', 'true');
 					uni.showToast({
 						title: '登录成功',
 						duration: 2000,
 						icon: "none"
 					});
-					console.log(state.hasLogin)
+					// console.log(state.hasLogin)
 				},
 				error => {
 					uni.showToast({
@@ -50,10 +51,11 @@ const store = new Vuex.Store({
 			http.httpRequest(opts, param).then(
 				res => {
 					state.hasLogin = false;
+					uni.setStorageSync('hasLogin', 'false');
 					uni.showToast({
 						title: res.data.msg,
 						duration: 2000,
-						icon: "none"
+						icon: "none",
 					});
 				},
 				error => {

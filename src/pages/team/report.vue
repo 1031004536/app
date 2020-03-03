@@ -2,26 +2,26 @@
   <view class="content">
     <view class="head">
       <text style="margin-right:20px;">报单账户：</text>
-      <text>1234567890098</text>
+      <text>{{detail.children.phone}}</text>
     </view>
     <view class="chose">
       <text style="margin-right:20px;">报单金额：</text>
       <view>
         <radio-group @change="radioChange">
           <label
-            v-for="(item, index) in items"
-            :key="item.value"
+            v-for="(item, index) in detail.score"
+            :key="index"
             style="display:flex;margin-right:10px;align-items: center"
           >
             <view>
-              <radio :value="item" :checked="index === current" />
+              <radio :value="item" />
             </view>
-            <view>{{ item.name }}</view>
+            <view>{{ item }}</view>
           </label>
         </radio-group>
       </view>
     </view>
-    <button class="report">立即报单</button>
+    <button class="report" @click="finsh">立即报单</button>
   </view>
 </template>
 
@@ -33,21 +33,7 @@ export default {
       current: 0,
       id: "",
       detail: "",
-      items: [
-        {
-          value: "1",
-          name: "1000",
-          checked: "true"
-        },
-        {
-          value: "2",
-          name: "2000"
-        },
-        {
-          value: "3",
-          name: "3000"
-        }
-      ]
+      score:''
     };
   },
   onLoad(index) {
@@ -58,12 +44,14 @@ export default {
   },
   methods: {
     radioChange: function(evt) {
-      for (let i = 0; i < this.items.length; i++) {
-        if (this.items[i].value === evt.target.value) {
-          this.current = i;
-          break;
-        }
-      }
+      console.log(evt.detail.value)
+      this.score = evt.detail.value
+      // for (let i = 0; i < this.items.length; i++) {
+      //   if (this.items[i].value === evt.target.value) {
+      //     this.current = i;
+      //     break;
+      //   }
+      // }
     },
     getData() {
       let opts = {
@@ -76,8 +64,8 @@ export default {
       http.httpRequest(opts, param).then(
         res => {
           if (res.data.code == 100) {
-            console.log(res.data);
-            this.detail = res.data;
+            console.log(res.data.data);
+            this.detail = res.data.data;
           } else {
             uni.showToast({
               title: res.data.msg,
@@ -85,6 +73,32 @@ export default {
               icon: "none"
             });
           }
+        },
+        error => {
+          uni.showToast({
+            title: error.msg,
+            duration: 2000,
+            icon: "none"
+          });
+        }
+      );
+    },
+    finsh() {
+      let opts = {
+        url: "/v1/team/recharge",
+        method: "post"
+      };
+      let param = {
+        children_id: this.id,
+         score:this.score
+      };
+      http.httpRequest(opts, param).then(
+        res => {
+            uni.showToast({
+              title: res.data.msg,
+              duration: 2000,
+              icon: "none"
+            });
         },
         error => {
           uni.showToast({

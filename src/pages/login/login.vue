@@ -100,6 +100,17 @@ export default {
       isDevtools: false
     };
   },
+  onShow() {
+   
+    let value = JSON.parse(uni.getStorageSync("hasLogin"))
+     console.log(typeof(value))
+    if(value){
+      console.log(value)
+       uni.reLaunch({
+          url: "../main/main"
+        });
+    }
+  },
   computed: mapState(["forcedLogin"]),
   methods: {
     ...mapMutations(["login"]),

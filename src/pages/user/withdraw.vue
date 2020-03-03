@@ -9,6 +9,7 @@
     <uni-popup ref="popup" type="bottom">
       <view class="bot">
         <view class="type">请选择提现方式</view>
+        <view style="flex:1;overflow-y:scroll">
         <view class="detail" v-for="(item,index) in list" :key="index" @click="changetype(item)">
           <text>{{item.type}}</text>
           <text>></text>
@@ -20,6 +21,7 @@
           </view>
           <text>></text>
         </view>
+         </view>
       </view>
     </uni-popup>
     <view class="custom">
@@ -40,7 +42,7 @@
         ></m-input>
       </view>
       <text style="color:rgba(128,128,128,1);font-size:13px;margin-left:50px"
-        >{{name}}金额￥{{totalMoney}}，<span style="color:#1CAFD6" @click="change">全部转换</span></text
+        >{{name}}金额￥{{totalMoney}}，<span style="color:#1CAFD6" @click="change">全部提现</span></text
       >
     </view>
     <button class="btu" @click="out">提现</button>
@@ -156,6 +158,11 @@ export default {
     },
     out() {
       this.getData()
+      setTimeout(function() {
+              uni.reLaunch({
+                url: "./user"
+              });
+            }, 2000);
     }
   }
 };
@@ -182,6 +189,8 @@ export default {
   background: rgba(255, 255, 255, 1);
   border-radius: 7px 7px 0px 0px;
   height: 250px;
+  display: flex;
+  flex-direction: column
 }
 .type {
   height: 40px;

@@ -4,7 +4,8 @@ import { mapState, mapMutations } from "vuex";
 		computed: mapState(["forcedLogin", "hasLogin", "userName"]),
 		onLaunch: function() {
 			console.log('App Launch');
-			if(!this.hasLogin){
+			const value = JSON.parse(uni.getStorageSync('hasLogin'))
+			if(!value){
 				 uni.reLaunch({
                 url: "./pages/login/login"
               });
