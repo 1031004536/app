@@ -31,6 +31,7 @@
             <image
               :src="receivables.alipayimg"
               style="width:100px;height:100px;margin-left:24px"
+              @click="big(receivables.alipayimg)"
             ></image>
           </view>
           <text style="color:rgba(128,128,128,1);font-size:10px"
@@ -44,6 +45,7 @@
             <image
               :src="receivables.weixinimg"
               style="width:100px;height:100px;margin-left:24px"
+              @click="big(receivables.weixinimg)"
             ></image>
           </view>
           <text style="color:rgba(128,128,128,1);font-size:10px"
@@ -89,6 +91,9 @@
       <text class="num">{{ desc.length }}/100</text>
     </view>
     <button class="btn" @click="sure">提交</button>
+    <view class="mark" v-if="hideMark" @click="closeMark">
+      <image :src='src' class="markImg"></image>
+    </view>
   </view>
 </template>
 
@@ -107,7 +112,9 @@ export default {
       receivables: "",
       score: "",
       grade_id: "",
-      imgId: ""
+      imgId: "",
+      src:'',
+      hideMark:false
     };
   },
   onShow() {
@@ -128,6 +135,13 @@ export default {
     },
     getImageInfo1(e) {
       this.imgId = e[0].id;
+    },
+    big(pam){
+      this.src = pam;
+      this.hideMark = true
+    },
+    closeMark(){
+      this.hideMark = false
     },
     getData() {
       let opts = {
@@ -214,7 +228,24 @@ export default {
 .content {
   padding: 0;
 }
-
+.mark {
+  position: absolute;
+  top:0;
+  left:0;
+  bottom: 0;
+  right: 0;
+  z-index: 10;
+  background: rgba(0,0,0,0.5)
+}
+.markImg {
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left:50%;
+  margin-top: -150px;
+  margin-left: -150px;
+}
 .head {
   background: rgba(42, 37, 37, 1);
   height: 55px;

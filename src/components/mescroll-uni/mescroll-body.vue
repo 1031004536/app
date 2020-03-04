@@ -1,20 +1,20 @@
 <template>
-	<view class="mescroll-body" :style="{'minHeight':minHeight, 'padding-top': padTop, 'padding-bottom': padBottom, 'padding-bottom': padBottomConstant, 'padding-bottom': padBottomEnv }" @touchstart="touchstartEvent" @touchmove="touchmoveEvent" @touchend="touchendEvent" @touchcancel="touchendEvent" >
+	<view class="mescroll-body" :style="{'minHeight':minHeight,  'padding-bottom': padBottom, 'padding-bottom': padBottomConstant, 'padding-bottom': padBottomEnv }" @touchstart="touchstartEvent" @touchmove="touchmoveEvent" @touchend="touchendEvent" @touchcancel="touchendEvent" >
 		<view class="mescroll-body-content mescroll-touch" :style="{ transform: translateY, transition: transition }">
 			<!-- 下拉加载区域 (支付宝小程序子组件传参给子子组件仍报单项数据流的异常,暂时不通过mescroll-down组件实现)-->
 			<!-- <mescroll-down :option="mescroll.optDown" :type="downLoadType" :rate="downRate"></mescroll-down> -->
-			<view v-if="mescroll.optDown.use" class="mescroll-downwarp">
+			<!-- <view v-if="mescroll.optDown.use" class="mescroll-downwarp">
 				<view class="downwarp-content">
 					<view class="downwarp-progress" :class="{'mescroll-rotate': isDownLoading}" :style="{'transform': downRotate}"></view>
 					<view class="downwarp-tip">{{downText}}</view>
 				</view>
-			</view>
+			</view> -->
 	
 			<!-- 列表内容 -->
 			<slot></slot>
 
 			<!-- 空布局 -->
-			<mescroll-empty v-if="isShowEmpty" :option="mescroll.optUp.empty" @emptyclick="emptyClick"></mescroll-empty>
+			<!-- <mescroll-empty v-if="isShowEmpty" :option="mescroll.optUp.empty" @emptyclick="emptyClick"></mescroll-empty> -->
 
 			<!-- 上拉加载区域 (下拉刷新时不显示, 支付宝小程序子组件传参给子子组件仍报单项数据流的异常,暂时不通过mescroll-up组件实现)-->
 			<!-- <mescroll-up v-if="mescroll.optUp.use && !isDownLoading" :option="mescroll.optUp" :type="upLoadType"></mescroll-up> -->
@@ -52,9 +52,9 @@
 		data() {
 			return {
 				mescroll: {optDown:{},optUp:{}}, // mescroll实例
-				downHight: 0, //下拉刷新: 容器高度
-				downRate: 0, // 下拉比率(inOffset: rate<1; outOffset: rate>=1)
-				downLoadType: 4, // 下拉刷新状态 （inOffset：1， outOffset：2， showLoading：3， endDownScroll：4）
+				// downHight: 0, //下拉刷新: 容器高度
+				// downRate: 0, // 下拉比率(inOffset: rate<1; outOffset: rate>=1)
+				// downLoadType: 4, // 下拉刷新状态 （inOffset：1， outOffset：2， showLoading：3， endDownScroll：4）
 				upLoadType: 0, // 上拉加载状态：0（loading前），1（loading中），2（没有更多了）
 				isShowEmpty: false, // 是否显示空布局
 				isShowToTop: false, // 是否显示回到顶部按钮
@@ -63,10 +63,10 @@
 			};
 		},
 		props: {
-			down: Object, // 下拉刷新的参数配置
+			// down: Object, // 下拉刷新的参数配置
 			up: Object, // 上拉加载的参数配置
-			top: [String, Number], // 下拉布局往下的偏移量 (支持20, "20rpx", "20px", "20%"格式的值, 其中纯数字则默认单位rpx, 百分比则相对于windowHeight)
-			topbar: Boolean, // top的偏移量是否加上状态栏高度, 默认false (使用场景:取消原生导航栏时,配置此项可自动加上状态栏高度的偏移量)
+			// top: [String, Number], // 下拉布局往下的偏移量 (支持20, "20rpx", "20px", "20%"格式的值, 其中纯数字则默认单位rpx, 百分比则相对于windowHeight)
+			// topbar: Boolean, // top的偏移量是否加上状态栏高度, 默认false (使用场景:取消原生导航栏时,配置此项可自动加上状态栏高度的偏移量)
 			bottom: [String, Number], // 上拉布局往上的偏移量 (支持20, "20rpx", "20px", "20%"格式的值, 其中纯数字则默认单位rpx, 百分比则相对于windowHeight)
 			safearea: Boolean, // bottom的偏移量是否加上底部安全区的距离, 默认false (需要适配iPhoneX时使用)
 			height: [String, Number] // 指定mescroll最小高度,默认windowHeight,使列表不满屏仍可下拉

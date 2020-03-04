@@ -3,34 +3,62 @@
     <view>
       <view class="input-row border">
         <text class="title">昵称：</text>
-        <m-input type="text" focus clearable v-model="nickname" placeholder="请输入昵称"></m-input>
+        <m-input
+          type="text"
+          focus
+          clearable
+          v-model="nickname"
+          placeholder="请输入昵称"
+        ></m-input>
       </view>
       <view class="input-row border">
         <text class="title">手机号：</text>
-        <m-input type="text" v-model="phone" placeholder="请输入手机号"></m-input>
+        <m-input
+          type="text"
+          v-model="phone"
+          placeholder="请输入手机号"
+        ></m-input>
       </view>
       <view class="input-row border">
         <text class="title">设置密码：</text>
-        <m-input type="password" displayable v-model="password" placeholder="请输入密码"></m-input>
+        <m-input
+          type="password"
+          displayable
+          v-model="password"
+          placeholder="请输入密码"
+        ></m-input>
       </view>
       <view class="input-row border">
         <text class="title">确认密码：</text>
-        <m-input type="password" displayable v-model="password_confirm" placeholder="请确认密码"></m-input>
+        <m-input
+          type="password"
+          displayable
+          v-model="password_confirm"
+          placeholder="请确认密码"
+        ></m-input>
       </view>
       <view class="input-row border">
         <text class="title">选择地区：</text>
-        <pickerAddress @send="getarea"></pickerAddress>
+        <pickerAddress @change="change" style="font-szie:14px">{{ txt }}</pickerAddress>
       </view>
       <view class="input-row border">
         <text class="title">推荐人：</text>
-        <m-input type="text" v-model="invite" placeholder="请输入推荐人"></m-input>
+        <m-input
+          type="text"
+          v-model="invite"
+          placeholder="请输入推荐人"
+        ></m-input>
       </view>
     </view>
     <view class="btn">
       <button class="reg" @tap="register">同意协议注册并登录</button>
     </view>
-    <view style="margin-top:15px;font-size:11px">未注册手机登录成功将自动注册，且代表您已同意协议</view>
-    <view style="font-size:11px;color:rgba(134,202,255,1);">《某某某隐私协议》《某某某隐私政策》</view>
+    <view style="margin-top:15px;font-size:11px"
+      >未注册手机登录成功将自动注册，且代表您已同意协议</view
+    >
+    <view style="font-size:11px;color:rgba(134,202,255,1);"
+      >《某某某隐私协议》《某某某隐私政策》</view
+    >
   </view>
 </template>
 
@@ -38,7 +66,7 @@
 // import service from '../../service.js';
 import http from "../../common/request.js";
 import mInput from "../../components/m-input.vue";
-import pickerAddress from "../../components/pickerAddress/pickerAddress.vue";
+import pickerAddress from "../../components/wangding-pickerAddress/wangding-pickerAddress";
 
 export default {
   components: {
@@ -48,10 +76,10 @@ export default {
   onLaunch() {
     console.log(this.address);
   },
-  onLoad(options){
-     if(options.recommender){
-       this.invite = options.recommender
-     }
+  onLoad(options) {
+    if (options.recommender) {
+      this.invite = options.recommender;
+    }
   },
   data() {
     return {
@@ -60,12 +88,16 @@ export default {
       phone: "",
       selectList: "",
       invite: "",
-      password_confirm: ""
+      password_confirm: "",
+      txt: "选择地区"
     };
   },
   methods: {
-    getarea: function(res) {
-      this.selectList = res;
+    change(data) {
+      console.log(data)
+      console.log(data.data.join(""))
+      this.txt = data.data.join("");
+      this.selectList = data.code
     },
     register() {
       var myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
@@ -116,26 +148,34 @@ export default {
         phone: this.phone,
         password: this.password,
         password_confirm: this.password_confirm,
-        province: this.selectList[0].code,
-        city: this.selectList[1].code,
-        area: this.selectList[2].code,
+        province: this.selectList[0],
+        city: this.selectList[1],
+        area: this.selectList[2],
         recommender: this.invite
       };
       http.httpRequest(opts, param).then(
         res => {
-          uni.showModal({
+          console.log(res.data)
+          if(res.data.code == 100){
+             uni.showModal({
             title: "提示",
             content: "注册成功，是否返回登录页面",
             success: function(res) {
               if (res.confirm) {
                 uni.navigateTo({
-            url: "../login/login"
-          });
+                  url: "../login/login"
+                });
               } else if (res.cancel) {
-                
               }
             }
           });
+          }else{
+            uni.showToast({
+            title: res.data.msg,
+            duration: 2000,
+            icon: "none"
+          });
+          }
           
         },
         error => {
@@ -147,15 +187,6 @@ export default {
         }
       );
     },
-    change(e) {
-      console.log(e);
-      if (e.show == true) {
-        uni.hideTabBar();
-      } else {
-        uni.showTabBar();
-        console.log(this.selectList);
-      }
-    }
   }
 };
 </script>
@@ -166,8 +197,8 @@ export default {
   padding-left: 39px;
   padding-right: 39px;
 }
-.select-border{
-  background: white
+.select-border {
+  background: white;
 }
 .title {
   font-size: 14px;

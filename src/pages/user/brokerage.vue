@@ -69,6 +69,10 @@ export default {
       let pageSize = page.size; // 页长, 默认每页10条
       uni.request({
         url: "/api/v1/my/commission",
+        data:{
+          page:pageNum,
+          pagesize:pageSize
+        },
         success: data => {
             console.log(data.data.data)
             this.total = data.data.data.total;
@@ -85,7 +89,9 @@ export default {
           // 接口返回的总数据量(如列表有26个数据,每页10条,共3页; 则totalSize=26)
           let totalSize = listData.total;
           // 接口返回的是否有下一页 (true/false)
+          console.log(listData.last_page,listData.current_page)
           if( listData.last_page  > listData.current_page){
+            console.log(listData.last_page,listData.current_page)
               this.hasNext = true
           }else{
               this.hasNext = false

@@ -90,7 +90,7 @@ export default {
   computed: {
     ...mapState(["forcedLogin"])
   },
-  onLoad() {
+  onShow() {
     this.hasLogin =JSON.parse(uni.getStorageSync('hasLogin')) 
      let opts = {
         url: "/v1/my/index",
@@ -141,6 +141,7 @@ export default {
       /**
        * 如果需要强制登录跳转回登录页面
        */
+      // this.hasLogin = JSON.parse(uni.getStorageSync('hasLogin'))
       if (this.forcedLogin) {
         uni.reLaunch({
           url: "../login/login"

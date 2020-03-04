@@ -1,18 +1,22 @@
 <template>
     <view class="content">
-        <image src="../../static/img/banner.png" style="width:100%;height:350px"></image>
+        <view style="width:100%;height:350px">
+        <image :src="'111.229.145.178 '+ detail.thumb" style="width:100%;height:100%"></image>
+        </view>
         <view class="productName">
-           <text style="font-size:16px;">大松（TODOT）格力电饭煲家用智能IH煲多功能电饭煲4L/升GDCF-40X62C</text>
-           <text style="font-size:22px;color:rgba(205,0,17,1);">￥1899.00</text>
+           <text style="font-size:16px;">{{detail.title}}</text>
+           <text style="font-size:22px;color:rgba(205,0,17,1);">￥{{detail.price}}</text>
         </view>
         <view class="tran">
             <span style="color:#808080">运费：</span>在线支付免运费
         </view>
+         
         <view class="detail">
+            <u-parse :content="detail.content" @preview="preview" @navigate="navigate" ></u-parse>
         </view>
-        <view class="tuijian">
+        <!-- <view class="tuijian">
             <text style="font-size:14px;margin-top:9px;margin-left:6px;">为你推荐</text>
-        </view>
+        </view> -->
         <view class="bottom">
             <view class="share">
                 <view class='ico'>
@@ -24,7 +28,7 @@
                     <text>分享</text>
                 </view> -->
             </view>
-            <button class="btu" style="background:rgba(128,128,128,1);">加入购物车</button>
+            <button class="btu" style="background:rgba(128,128,128,1);" @click="join">加入购物车</button>
             <!-- <button class="btu" style="background:rgba(205,0,17,1);" @click="open">立即购买</button> -->
         </view>
         <uni-popup ref="popup" type="bottom">
@@ -50,13 +54,15 @@
 <script>
 import http from '../../common/request.js'
 import uniPopup from "../../components/uni-popup/uni-popup.vue"
+import uParse from '../../components/u-parse/u-parse.vue'
 export default {
-    components: {uniPopup},
+    components: {uniPopup,uParse},
     data() {
         return {
             num :'1',
             id:'',
-            detail:''
+            detail:'',
+            content:''
         }
     },
     onLoad(opt){
@@ -71,7 +77,7 @@ export default {
       },
       getData() {
       let opts = {
-              url:'http://111.229.145.178/v1/index/get_goods_detail',
+              url:'/v1/index/get_goods_detail',
               method:'get'
           }
 
@@ -81,6 +87,33 @@ export default {
            http.httpRequest(opts, param).then(
         res => {
           console.log(res.data.data)
+          this.detail = res.data.data
+        },
+        error => {
+          uni.showToast({
+            title: error.msg,
+            duration: 2000,
+            icon: "none"
+          });
+        }
+      );
+    },
+    join(){
+      let opts = {
+              url:'/v1/index/shopcart',
+              method:'POST'
+          }
+
+          let param = {
+              id:this.detail.id
+          }
+           http.httpRequest(opts, param).then(
+        res => {
+          uni.showToast({
+            title: res.data.msg,
+            duration: 2000,
+            icon: "none"
+          });
         },
         error => {
           uni.showToast({
@@ -109,7 +142,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
     .content {
         padding: 0;
         position: static
@@ -126,7 +159,6 @@ export default {
         flex-direction: column;
         justify-content: space-between;
     }
-
     .tran {
         height: 40px;
         margin-top: 5px;
@@ -141,7 +173,9 @@ export default {
         background: white;
         height: 100%;
     }
-
+    .inline {
+       width: 100% !important
+    }
     .header {
         height: 39px;
         border-bottom: 1px solid #E6E6E6;
@@ -159,7 +193,9 @@ export default {
         margin-top: 5px;
         box-sizing: border-box
     }
-
+    .wxParse >>> .inline{
+        width: 100%
+    }
     .bottom {
         height: 50px;
         background: white;

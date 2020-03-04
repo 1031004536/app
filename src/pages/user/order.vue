@@ -7,7 +7,7 @@
       style-type="button"
       active-color="#CD0011"
     ></uni-segmented-control>
-    <view class="content" style="height:100%">
+    <!-- <view class="content" style="height:100%">
       <view v-show="current === 0">
         <view class="list">
           <view class="num">
@@ -131,7 +131,7 @@
           </view>
         </view>
       </view>
-    </view>
+    </view> -->
   </view>
 </template>
 <script>

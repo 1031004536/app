@@ -173,7 +173,16 @@ export default {
       };
       http.httpRequest(opts, param).then(
         res => {
-          this.toMain(this.phone)
+          if(res.data.code == 100){
+             this.toMain(this.phone)
+          }else{
+            uni.showToast({
+            title: res.data.msg,
+            duration: 2000,
+            icon: "none"
+          });
+          }
+          
         },
         error => {
           uni.showToast({

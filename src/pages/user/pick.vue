@@ -35,7 +35,7 @@ export default {
   methods:{
       getData() {
           let opts = {
-              url:'/v1/my/recharge',
+              url:'/v1/my/shoppingticket',
               method:'get'
           }
 

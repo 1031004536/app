@@ -1,6 +1,6 @@
 <template>
   <view class="content">
-    <view  class="hello">
+    <view class="hello">
       <view class="uni-padding-wrap" style="height:165px;border-radius:7px;">
         <view
           class="page-section swiper"
@@ -38,8 +38,11 @@
         @clickItem="onClickItem"
         style-type="button"
       ></uni-segmented-control>
-      <view style="height:100%;background:white;padding-left:24px">
-        <view v-show="current === 0">
+      <view style="height:100%;background:white;padding-left:24px;">
+        <view v-show="current === 0" style="position:relative">
+          <view class="smallcar" @click="incart">
+          <image src="../../static/img/gouwu.png" style="width:36px;height:32px"></image>
+        </view>
           <view
             class="product"
             v-for="(item, index) in dataList[0].goods"
@@ -66,7 +69,10 @@
             ></image>
           </view>
         </view>
-        <view v-show="current === 1">
+        <view v-show="current === 1" style="position:relative">
+          <view class="smallcar" @click="incart">
+          <image src="../../static/img/gouwu.png" style="width:36px;height:32px"></image>
+        </view>
           <view
             class="product"
             v-for="(item, index) in dataList[1].goods"
@@ -93,7 +99,10 @@
             ></image>
           </view>
         </view>
-        <view v-show="current === 2">
+        <view v-show="current === 2" style="position:relative">
+          <view class="smallcar" @click="incart">
+          <image src="../../static/img/gouwu.png" style="width:36px;height:32px"></image>
+        </view>
           <view
             class="product"
             v-for="(item, index) in dataList[2].goods"
@@ -120,6 +129,7 @@
             ></image>
           </view>
         </view>
+        
       </view>
     </view>
     <!-- <view v-if="!hasLogin" class="hello">
@@ -198,6 +208,11 @@ export default {
         url: "./detail?id=" + index
       });
     },
+    incart(){
+      uni.navigateTo({
+        url: "./cart"
+      });
+    },
     getData() {
       let opts = {
         url: "/v1/index/index",
@@ -222,14 +237,17 @@ export default {
               duration: 2000,
               icon: "none",
               success: function() {
-                uni.reLaunch({
-                  url: "../login/login"
-                });
+                setTimeout(() => {
+                  uni.reLaunch({
+                    url: "../login/login"
+                  });
+                }, 1000);
               }
             });
           }
         },
         error => {
+          uni.setStorageSync("hasLogin", "false");
           uni.showToast({
             title: error.msg,
             duration: 2000,
@@ -293,5 +311,20 @@ export default {
   font-size: 14px;
   font-weight: 400;
   color: rgba(34, 34, 34, 1);
+}
+
+.smallcar {
+  width: 79px;
+  height: 79px;
+  background: rgba(0, 0, 0, 1);
+  opacity: 0.8;
+  border-radius: 50%;
+  position: absolute;
+  right: 25px;
+  bottom: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
 }
 </style>

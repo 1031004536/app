@@ -19,7 +19,7 @@
       </view>
       <view class="input-row border">
         <text class="title">选择地区：</text>
-        <pickerAddress @send="getarea"></pickerAddress>
+        <pickerAddress @change="change" style="font-szie:14px">{{ txt }}</pickerAddress>
       </view>
     </view>
     <view class="btn">
@@ -32,7 +32,7 @@
 // import service from '../../service.js';
 import http from "../../common/request.js";
 import mInput from "../../components/m-input.vue";
-import pickerAddress from "../../components/pickerAddress/pickerAddress.vue";
+import pickerAddress from "../../components/wangding-pickerAddress/wangding-pickerAddress";
 
 export default {
   components: {
@@ -53,12 +53,16 @@ export default {
       password: "",
       phone: "",
       selectList: "",
-      password_confirm: ""
+      password_confirm: "",
+      txt:'选择地区'
     };
   },
   methods: {
-    getarea: function(res) {
-      this.selectList = res;
+    change(data) {
+      console.log(data)
+      console.log(data.data.join(""))
+      this.txt = data.data.join("");
+      this.selectList = data.code
     },
     register() {
       var myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
@@ -109,21 +113,39 @@ export default {
         phone: this.phone,
         password: this.password,
         password_confirm: this.password_confirm,
-        province: this.selectList[0].code,
-        city: this.selectList[1].code,
-        area: this.selectList[2].code,
+        province: this.selectList[0],
+        city: this.selectList[1],
+        area: this.selectList[2],
       };
       http.httpRequest(opts, param).then(
         res => {
-          uni.showToast({
-           icon: "none",
-           title: "密码最短为 6 个字符",
-            success: function() {
-                uni.navigateTo({
-                url: "./team"
-             });
-            }
+          if(res.data.code == 100){
+             uni.showToast({
+            title: res.data.msg,
+            duration: 2000,
+            icon: "none"
+            });
+            settimeout(() => {
+               uni.reLaunch({
+                  url: "./team"
+                });
+            }, 1000);
+            // success: function(res) {
+            //   if (res.confirm) {
+            //     uni.navigateTo({
+            //       url: "../login/login"
+            //     });
+            //   } else if (res.cancel) {
+            //   }
+            // }
+          // });
+          }else{
+            uni.showToast({
+            title: res.data.msg,
+            duration: 2000,
+            icon: "none"
           });
+          }
           
         },
         error => {
@@ -135,15 +157,6 @@ export default {
         }
       );
     },
-    change(e) {
-      console.log(e);
-      if (e.show == true) {
-        uni.hideTabBar();
-      } else {
-        uni.showTabBar();
-        console.log(this.selectList);
-      }
-    }
   }
 };
 </script>

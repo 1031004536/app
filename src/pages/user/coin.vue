@@ -69,6 +69,10 @@ export default {
       let pageSize = page.size; // 页长, 默认每页10条
       uni.request({
         url: "/api/v1/my/coin",
+         data:{
+          page:pageNum,
+          pagesize:pageSize
+        },
         success: data => {
             console.log(data.data.data)
             this.total = data.data.data.total;

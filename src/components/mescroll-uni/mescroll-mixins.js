@@ -14,9 +14,9 @@ const MescrollMixin = {
 		}
 	},
 	// 注册系统自带的下拉刷新 (配置down.native为true时生效, 还需在pages配置enablePullDownRefresh:true;详请参考mescroll-native的案例)
-	onPullDownRefresh(){
-		this.mescroll && this.mescroll.onPullDownRefresh();
-	},
+	// onPullDownRefresh(){
+	// 	this.mescroll && this.mescroll.onPullDownRefresh();
+	// },
 	// 注册列表滚动事件,用于判定在顶部可下拉刷新,在指定位置可显示隐藏回到顶部按钮 (此方法为页面生命周期,无法在子组件中触发, 仅在mescroll-body生效)
 	onPageScroll(e) {
 		this.mescroll && this.mescroll.onPageScroll(e);
@@ -39,10 +39,10 @@ const MescrollMixin = {
 			}
 		},
 		// 下拉刷新的回调
-		downCallback() {
-			// mixin默认resetUpScroll
-			this.mescroll.resetUpScroll()
-		},
+		// downCallback() {
+		// 	// mixin默认resetUpScroll
+		// 	this.mescroll.resetUpScroll()
+		// },
 		// 上拉加载的回调
 		upCallback() {
 			// mixin默认延时500自动结束加载
