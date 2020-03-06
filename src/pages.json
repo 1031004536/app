@@ -89,7 +89,7 @@
 		},{
 			"path": "pages/user/recharge/dredge",
 			"style": {
-				"navigationBarTitleText": "开通会员",
+				"navigationBarTitleText": "升级/开通",
 				"navigationBarTextStyle": "#EBB46C",
 		        "navigationBarBackgroundColor": "#2A2525"
 			}
@@ -152,6 +152,11 @@
 			"path": "pages/team/reg",
 			"style": {
 				"navigationBarTitleText": "代注册"
+			}
+		},{
+			"path": "pages/main/pay",
+			"style": {
+				"navigationBarTitleText": "确认订单"
 			}
 		}
 	],

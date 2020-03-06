@@ -41,8 +41,11 @@
       <view style="height:100%;background:white;padding-left:24px;">
         <view v-show="current === 0" style="position:relative">
           <view class="smallcar" @click="incart">
-          <image src="../../static/img/gouwu.png" style="width:36px;height:32px"></image>
-        </view>
+            <image
+              src="../../static/img/gouwu.png"
+              style="width:36px;height:32px"
+            ></image>
+          </view>
           <view
             class="product"
             v-for="(item, index) in dataList[0].goods"
@@ -66,13 +69,17 @@
             <image
               src="../../static/img/gouwuche1.png"
               style="width:30px;height:28px"
+              @click="add(item.id)"
             ></image>
           </view>
         </view>
         <view v-show="current === 1" style="position:relative">
           <view class="smallcar" @click="incart">
-          <image src="../../static/img/gouwu.png" style="width:36px;height:32px"></image>
-        </view>
+            <image
+              src="../../static/img/gouwu.png"
+              style="width:36px;height:32px"
+            ></image>
+          </view>
           <view
             class="product"
             v-for="(item, index) in dataList[1].goods"
@@ -101,8 +108,11 @@
         </view>
         <view v-show="current === 2" style="position:relative">
           <view class="smallcar" @click="incart">
-          <image src="../../static/img/gouwu.png" style="width:36px;height:32px"></image>
-        </view>
+            <image
+              src="../../static/img/gouwu.png"
+              style="width:36px;height:32px"
+            ></image>
+          </view>
           <view
             class="product"
             v-for="(item, index) in dataList[2].goods"
@@ -129,7 +139,6 @@
             ></image>
           </view>
         </view>
-        
       </view>
     </view>
     <!-- <view v-if="!hasLogin" class="hello">
@@ -208,7 +217,7 @@ export default {
         url: "./detail?id=" + index
       });
     },
-    incart(){
+    incart() {
       uni.navigateTo({
         url: "./cart"
       });
@@ -248,6 +257,32 @@ export default {
         },
         error => {
           uni.setStorageSync("hasLogin", "false");
+          uni.showToast({
+            title: error.msg,
+            duration: 2000,
+            icon: "none"
+          });
+        }
+      );
+    },
+    add(id) {
+      let opts = {
+        url: "/v1/index/shopcart",
+        method: "POST"
+      };
+
+      let param = {
+        id: id
+      };
+      http.httpRequest(opts, param).then(
+        res => {
+          uni.showToast({
+            title: res.data.msg,
+            duration: 2000,
+            icon: "none"
+          });
+        },
+        error => {
           uni.showToast({
             title: error.msg,
             duration: 2000,

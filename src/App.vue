@@ -140,4 +140,8 @@ import { mapState, mapMutations } from "vuex";
 	button.primary {
 		background-color: #0faeff;
 	}
+	.uni-page-head-ft {
+  font-size: 16px;
+  margin-right: 15px
+}
 </style>

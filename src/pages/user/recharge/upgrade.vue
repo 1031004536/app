@@ -27,7 +27,7 @@
                 ><span style="color:black">权益：</span
                 >{{item.equity}}</view
               >
-              <button class="btn" v-if="item.is_display_button === 1" @click="open(item.grade_id)">开通/升级</button>
+              <button class="btn" v-if="item.is_display_button === 1" @click="open(item.grade_id)">{{item.button_title}}</button>
               <view class="btn" style="margin-bottom:10px;background:rgba(128,128,128,1);border-radius:20px;"  v-for="(detail,ind) in item.upgrade_progress" :key="ind">{{detail}}</view>
             </swiper-item>
           </swiper>

@@ -7,7 +7,7 @@
       >
     </view>
     <uni-popup ref="popup" type="bottom">
-      <view class="bot">
+      <scroll-view scroll-y="true" class="bot">
         <view class="type">请选择提现方式</view>
         <view style="flex:1;overflow-y:scroll">
         <view class="detail" v-for="(item,index) in list" :key="index" @click="changetype(item)">
@@ -22,7 +22,7 @@
           <text>></text>
         </view>
          </view>
-      </view>
+      </scroll-view>
     </uni-popup>
     <view class="custom">
       <text
