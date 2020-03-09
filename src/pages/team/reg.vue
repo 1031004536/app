@@ -123,13 +123,13 @@ export default {
              uni.showToast({
             title: res.data.msg,
             duration: 2000,
-            icon: "none"
-            });
-            settimeout(() => {
-               uni.reLaunch({
+            icon: "none",
+            success:function () {
+                  uni.reLaunch({
                   url: "./team"
                 });
-            }, 1000);
+            }
+            });
             // success: function(res) {
             //   if (res.confirm) {
             //     uni.navigateTo({

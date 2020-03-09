@@ -200,7 +200,7 @@ export default {
           item.goods_number++;
           let opts = {
             url: "/v1/index/shopcart",
-            method: "PATCH"
+            method: "put"
           };
 
           let param = {
@@ -234,7 +234,7 @@ export default {
           item.goods_number--;
           let opts = {
             url: "/v1/index/shopcart",
-            method: "PATCH"
+            method: "put"
           };
 
           let param = {

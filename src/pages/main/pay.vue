@@ -1,16 +1,33 @@
 <template>
   <view class="content">
     <view class="adress">
-      <text style="color:rgba(0,0,0,1);font-size:13px;"
+      <!-- <text style="color:rgba(0,0,0,1);font-size:13px;"
         >{{person.receive_name ? person.receive_name : ''}} <span style="color:#808080">{{person.receive_phone ? person.receive_phone : ''}}</span></text
+      > -->
+      <view
+        style="width:100%;color:rgba(0,0,0,1);font-size:13px;display:flex;justify-content: flex-start;margin-bottom:5px;padding-right:15px"
       >
+        <input
+          style="border:1px solid #808080;"
+          v-model="receive_name"
+          placeholder="请填写收货人姓名"
+          class="int"
+        />
+        <input
+          style="border:1px solid #808080;margin-left:10px;"
+          v-model="receive_phone"
+          placeholder="请填写手机号码"
+          class="int"
+        />
+      </view>
       <view
         style="color:rgba(0,0,0,1);font-size:12px;display:flex;align-items:center"
-        ><text>{{person.province}}{{person.city}}{{person.area}}</text
+        ><text>{{ person.province }}{{ person.city }}{{ person.area }}</text
         ><input
           style="border:1px solid #808080;margin-left:10px;"
           v-model="receive_address"
           placeholder="请填写具体地址"
+          class="int"
       /></view>
     </view>
     <view class="product" v-for="(item, index) in list" :key="index">
@@ -36,7 +53,9 @@
     </view>
     <view class="bottom">
       <view class="buy">
-        <text style="color:#808080;font-size:13px;margin-right:5px">共{{totalCount}}件,</text>
+        <text style="color:#808080;font-size:13px;margin-right:5px"
+          >共{{ totalCount }}件,</text
+        >
         <text style="font-size:15px;color:rgba(34,34,34,1);"
           >合计：<span style="color:#CD0011">￥{{ totalPrice }}</span></text
         >
@@ -46,7 +65,7 @@
   </view>
 </template>
 <script>
-import http from '../../common/request.js'
+import http from "../../common/request.js";
 export default {
   onLoad(options) {
     let param = JSON.parse(options.param);
@@ -54,33 +73,35 @@ export default {
     console.log(param);
   },
   computed: {
-      totalCount: function() {
-        var totalCount = 0;
-        for (let i = 0; i < this.list.length; i++) {
-          totalCount += Number(this.list[i].goods_number);
-        }
-        return totalCount;
-      },
-      totalPrice: function() {
-        var totalPrice = 0;
-        for (let i = 0; i < this.list.length; i++) {
-          totalPrice += this.list[i].goods_price * this.list[i].goods_number;
-        }
-        return totalPrice;
+    totalCount: function() {
+      var totalCount = 0;
+      for (let i = 0; i < this.list.length; i++) {
+        totalCount += Number(this.list[i].goods_number);
       }
+      return totalCount;
     },
+    totalPrice: function() {
+      var totalPrice = 0;
+      for (let i = 0; i < this.list.length; i++) {
+        totalPrice += this.list[i].goods_price * this.list[i].goods_number;
+      }
+      return totalPrice;
+    }
+  },
   data() {
     return {
       list: "",
-      person:'',
-      receive_address:''
+      person: "",
+      receive_address: "",
+      receive_name: "",
+      receive_phone: ""
     };
   },
-  onShow(){
-      this.getData()
+  onShow() {
+    this.getData();
   },
   methods: {
-      getData() {
+    getData() {
       let opts = {
         url: "/v1/index/get_address",
         method: "get"
@@ -90,9 +111,21 @@ export default {
       http.httpRequest(opts, param).then(
         res => {
           console.log(res.data.data);
-          this.person = res.data.data
-          if(res.data.data.receive_address != 'null '){
-              this.receive_address=res.data.data.receive_address
+          this.person = res.data.data;
+          if (res.data.data.receive_address == null) {
+            this.receive_address = "";
+          } else {
+            this.receive_address = res.data.data.receive_address;
+          }
+          if (res.data.data.receive_name == null) {
+            this.receive_name = "";
+          } else {
+            this.receive_name = res.data.data.receive_name;
+          }
+          if (res.data.data.receive_phone == null) {
+            this.receive_phone = "";
+          } else {
+            this.receive_phone = res.data.data.receive_phone;
           }
         },
         error => {
@@ -105,38 +138,39 @@ export default {
       );
     },
     pay() {
-       let opts = {
+      let opts = {
         url: "/v1/index/buy",
         method: "post"
       };
 
       let param = {
-          name:this.person.receive_name,
-          phone:this.person.receive_phone,
-          address: this.receive_address
+        name: this.person.receive_name,
+        phone: this.person.receive_phone,
+        address: this.receive_address
       };
       http.httpRequest(opts, param).then(
         res => {
           console.log(res.data);
-          if(res.data.code == 100){
-              uni.showToast({
-            title: res.data.msg,
-            duration: 2000,
-            icon: "none"
-          });
-           setTimeout(() => {
-               uni.reLaunch({
-                   url:'./main'
-               })
-           }, 1000);
-          }else{
-               uni.showToast({
-            title: res.data.msg,
-            duration: 2000,
-            icon: "none"
-          }); 
+          if (res.data.code == 100) {
+            uni.showToast({
+              title: res.data.msg,
+              duration: 2000,
+              icon: "none",
+              success: function() {
+                setTimeout(() => {
+                  uni.reLaunch({
+                    url: "./main"
+                  });
+                }, 1000);
+              }
+            });
+          } else {
+            uni.showToast({
+              title: res.data.msg,
+              duration: 2000,
+              icon: "none"
+            });
           }
-         
         },
         error => {
           uni.showToast({
@@ -145,9 +179,9 @@ export default {
             icon: "none"
           });
         }
-      ); 
+      );
     }
-  },
+  }
 };
 </script>
 
@@ -188,6 +222,10 @@ export default {
   box-sizing: border-box;
   justify-content: space-between;
 }
+
+.int {
+  width: 150px;
+}
 .payType {
   display: flex;
   height: 40px;
@@ -214,7 +252,7 @@ export default {
   padding-left: 19px;
   padding-right: 15px;
   align-items: center;
-  justify-content: flex-end
+  justify-content: flex-end;
 }
 
 .buy {

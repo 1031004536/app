@@ -161,7 +161,7 @@ export default {
             content: "更改成功",
             success: function(res) {
               if (res.confirm) {
-                uni.navigateTo({
+                uni.reLaunch({
                 url: "./user"
           });
               } else if (res.cancel) {

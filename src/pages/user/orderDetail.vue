@@ -1,31 +1,30 @@
 <template>
   <view class="content">
     <view class="head">
-      订单已完成
+      {{detail.status_text}}
     </view>
     <view class="phone">
-      您的订单已送到地点，如您未收到商品，可联系快递员：
-      廖子豪，电话：15032781234
+      {{detail.express_id}}：{{detail.express_no}}
     </view>
     <view class="adress">
-      <text style="font-weight:600">廖祖豪 150****3421</text>
+      <text style="font-weight:600">{{detail.receive_name}} {{detail.receive_phone}}</text>
       <text style="color:rgba(128,128,128,1);margin-top:12px;font-size:11px"
-        >地址：江西省南昌市青山湖区京东镇艾溪湖综合楼</text
+        >地址：{{detail.receive_address}}</text
       >
     </view>
-    <view class="product">
+    <view class="product" v-for="(item,index) in detail.goods" :key="index">
       <view class="img">
-        <image src="" style="width:100%;height:100%"></image>
+        <image :src="item.goods_thumb" style="width:100%;height:100%"></image>
       </view>
       <view class="name">
         <text style="font-size:12px;"
-          >8暗夜绿XR磨砂透明iPhone11pro女xsmax苹果x手机壳7pius潮7p男8p</text
+          >{{item.goods_name}}</text
         >
         <view
           style="display:flex;flex-direction: column;text-align:right;font-size:12px"
         >
-          <text>￥16</text>
-          <text>x1</text>
+          <text>￥{{item.goods_price}}</text>
+          <text>x{{item.goods_number}}</text>
         </view>
       </view>
     </view>
@@ -39,19 +38,19 @@
     <view class="detail">
       <view class="num">
         <text class="title">订单编号：</text>
-        <text>15254656456</text>
+        <text>{{detail.order_no}}</text>
       </view>
       <view class="num">
         <text class="title">下单时间：</text>
-        <text>2019-10-23 19：00</text>
+        <text>{{detail.create_time}}</text>
       </view>
       <view class="num">
         <text class="title">运费:</text>
-        <text>￥0.0</text>
+        <text>￥{{detail.postage}}</text>
       </view>
       <view style="text-align:right;font-size:13px;"
         >实付款：<span style="font-weight:600;color:#CD0011;font-size:15px"
-          >￥13.00</span
+          >￥{{detail.total}}</span
         ></view
       >
     </view>
@@ -64,12 +63,54 @@
 </template>
 
 <script>
-export default {};
+import http from '../../common/request.js'
+export default {
+  data() {
+    return {
+      id:'',
+      detail:''
+    }
+  },
+  onLoad(opt){
+    console.log(opt.id)
+    this.id = opt.id
+  },
+  onShow(){
+    this.getData()
+  },
+  methods: {
+    getData(){
+      let opts = {
+        url: "/v1/index/orderdetails",
+        method: "get"
+      };
+
+      let param = {
+        id:this.id
+      };
+      http.httpRequest(opts, param).then(
+        res => {
+          console.log(res.data.data);
+          this.detail = res.data.data
+          
+        },
+        error => {
+          uni.showToast({
+            title: error.msg,
+            duration: 2000,
+            icon: "none"
+          });
+        }
+      );
+    },
+  },
+};
 </script>
 
 <style scoped>
 .content {
   padding: 0;
+  padding-bottom: 49px;
 }
 .head {
   height: 52px;
@@ -126,6 +167,8 @@ export default {};
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  flex: 1;
+  justify-content: space-between;
 }
 
 .waiter {
@@ -173,6 +216,7 @@ export default {};
 .btn {
     width:70px;
     height:29px;
+    line-height: 29px;
     border-radius: 15px;
     font-size: 13px;
     padding: 0;
